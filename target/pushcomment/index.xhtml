@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html" encoding="UTF-8">
+	<h:head>
+		<meta charset="utf-8" />
+	</h:head>
+	<h:body>
+		<h:form prependId="false">
+			<p:inputTextarea id="cmt" value="#{myCommentBean.comment}"></p:inputTextarea>
+			<p:commandButton actionListener="#{myCommentBean.publish}"
+				process="cmt @this" update="cmt" value="publish"></p:commandButton>
+		</h:form>
+		<span id="pushComment" />
+		<p:socket channel="/comment" onMessage="handleMessage"></p:socket>
+		<script type="text/javascript">
+          function handleMessage(data)
+            { 
+            jQuery('#pushComment').text(data);
+      		}
+        </script>
+	</h:body>
+</f:view>
+</html>
